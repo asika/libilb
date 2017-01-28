@@ -123,7 +123,8 @@ class bookSpider(scrapy.Spider):
         self.session.commit()
 
     def start_requests(self):
-        start_url = "https://webcat.tpml.edu.tw/WebpacMobile/bookdetail.do"
+        # start_url = "https://webcat.tpml.edu.tw/WebpacMobile/bookdetail.do"
+        start_url = "https://webcat.tpml.edu.tw/webpac/bookDetail.do"
 
         q = self.session.query(bookScrape)
 
@@ -148,7 +149,8 @@ class bookSpider(scrapy.Spider):
         _content = None
         _httpcode = -1
         try:
-            _content = Selector(response=response).xpath('//*[@id="page1"]/div[2]/div[1]').extract().pop()
+            # _content = Selector(response=response).xpath('//*[@id="page1"]/div[2]/div[1]').extract().pop()
+            _content = Selector(response=response).xpath('//*[@id="detailViewMARC"]').extract().pop()
             _httpcode = response.status
         except IndexError, e:
             # TODO: handling non-exist indexes
