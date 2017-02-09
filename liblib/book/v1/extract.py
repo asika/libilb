@@ -56,7 +56,7 @@ def tpml_marcfix(record):
 
         if not _set:
             try:
-                f = record['245']['c'] 
+                f = _get_field(record, '245', 'c') # record['245']['c'] 
                 if f is not None:
                     record.add_field(
                         Field(tag='100', indicators=f.indicators, subfields=f.subfields)
@@ -67,13 +67,13 @@ def tpml_marcfix(record):
 
         if not _set:
             try:
-                f = record['710']['a'] 
+                f = _get_field(record, '710', 'a') #record['710']['a'] 
                 if f is not None:
                     record.add_field(
                         Field(tag='100', indicators=f.indicators, subfields=f.subfields)
                     )
                     _set = True
-            except IndexError, e:
+            except (IndexError, TypeError) as e:
                 pass
 
     if record.publisher() is None:
