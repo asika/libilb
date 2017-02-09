@@ -157,10 +157,14 @@ class bookSpider(scrapy.Spider):
             self.log("error parsing content: {err}".format(err=str(e)))
 
         # self.log(content)
-        self.session.merge(bookScrape(
-            id=index,
-            httpcode=_httpcode,
-            content=_content
-        ))
-        self.session.commit()
+        try:
+            self.session.merge(bookScrape(
+                id=index,
+                httpcode=_httpcode,
+                content=_content
+            ))
+            self.session.commit()
+        except Exception, e:
+            self.log("Error saving bookdata: {err}".format(err=str(e)))
+            self.session.rollback()
 
